@@ -9,13 +9,22 @@ class App extends React.Component {
       phraseTranslated: 'This is where your translated sentence will appear.'
     }
   }
-  
+
   // The translate function is where you will put your logic to convert the sentence entered by the user to pig location.  What is currently in the function will only directly copy what the user has entered.
 
   translate = (e) => {
     e.preventDefault()
     let translated = this.state.phrase
-    this.setState({phraseTranslated: translated})
+
+		//magic happens
+    const firstLetter = translated[0];
+    if (firstLetter === 'a') {
+      var newTrans= translated +"way"
+    } else if (firstLetter === 'q'){
+      //the condition for qu
+      var newTrans = translated.slice(2) + 'quay'
+    }
+    this.setState({phraseTranslated: newTrans})
   }
 
   handleChange = (e) => {
@@ -24,7 +33,7 @@ class App extends React.Component {
 
   render() {
     return (
-      
+
       <div className="wrapper">
         <header className="box header">
           <div id="pigImage">
