@@ -11,19 +11,37 @@ class App extends React.Component {
   }
 
   // The translate function is where you will put your logic to convert the sentence entered by the user to pig location.  What is currently in the function will only directly copy what the user has entered.
-
+  wordSplitter = (word) => {
+    const firstLetter = word[0];
+    if (firstLetter === 'a') {
+      return [null, word]
+    } else if (firstLetter === 'q'){
+      return["qu", word.slice(2)]
+    } else {
+      return [firstLetter,word.slice(1)]
+    }
+  }
+  suffixPicker = (prefix) => {
+    if (prefix === null) {
+      return "way"
+    } else if (prefix === "qu") {
+      return "quay"
+    } else {
+      return prefix + "ay"
+    }
+  }
   translate = (e) => {
     e.preventDefault()
     let translated = this.state.phrase
 
 		//magic happens
-    const firstLetter = translated[0];
-    if (firstLetter === 'a') {
-      var newTrans= translated +"way"
-    } else if (firstLetter === 'q'){
-      //the condition for qu
-      var newTrans = translated.slice(2) + 'quay'
-    }
+    const wordParts = this.wordSplitter(translated)
+
+		const prefix = wordParts[0]
+    const wordRoot = wordParts[1]
+
+    const suffix = this.suffixPicker(prefix)
+    const newTrans = wordRoot + suffix
     this.setState({phraseTranslated: newTrans})
   }
 
